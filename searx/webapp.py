@@ -613,10 +613,10 @@ def health():
     return Response('OK', mimetype='text/plain')
 
 
-@app.route('/client<token>.css', methods=['GET', 'POST'])
+@app.route('/client<token>.svg', methods=['GET', 'POST'])
 def client_token(token=None):
     link_token.ping(request, token)
-    return Response('', mimetype='text/css')
+    return Response('<svg></svg>', mimetype='image/svg+xml')
 
 
 @app.route('/search', methods=['GET', 'POST'])
