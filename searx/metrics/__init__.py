@@ -206,6 +206,7 @@ def get_engines_stats(engine_name_list):
             'score': 0,
             'score_per_result': 0,
             'result_count': result_count,
+            'request_count': sent_count,
         }
 
         if successful_count and result_count_sum:
