@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-export NODE_MINIMUM_VERSION="16.13.0"
+export NODE_MINIMUM_VERSION="18.17.0"
 
 node.help(){
     cat <<EOF
