@@ -106,13 +106,8 @@ from searx.answerers import (
     answerers,
     ask,
 )
-from searx.metrics import (
-    get_engines_stats,
-    get_engine_errors,
-    get_reliabilities,
-    histogram,
-    counter,
-)
+from searx import metrics
+
 from searx.flaskfix import patch_application
 
 from searx.locales import (
@@ -910,15 +905,15 @@ def preferences():
     stats = {}  # pylint: disable=redefined-outer-name
     max_rate95 = 0
     for _, e in filtered_engines.items():
-        h = histogram('engine', e.name, 'time', 'total')
-        median = round(h.percentage(50), 1) if h.count > 0 else None
-        rate80 = round(h.percentage(80), 1) if h.count > 0 else None
-        rate95 = round(h.percentage(95), 1) if h.count > 0 else None
+        h = metrics.HISTOGRAM_STORAGE.get('engine', e.name, 'time', 'total')
+        median = round(h.percentile(50), 1) if h.count > 0 else None  # type: ignore
+        rate80 = round(h.percentile(80), 1) if h.count > 0 else None  # type: ignore
+        rate95 = round(h.percentile(95), 1) if h.count > 0 else None  # type: ignore
 
         max_rate95 = max(max_rate95, rate95 or 0)
 
-        result_count_sum = histogram('engine', e.name, 'result', 'count').sum
-        successful_count = counter('engine', e.name, 'search', 'count', 'successful')
+        result_count_sum = metrics.HISTOGRAM_STORAGE.get('engine', e.name, 'result', 'count').sum
+        successful_count = metrics.COUNTER_STORAGE.get('engine', e.name, 'search', 'count', 'successful')
         result_count = int(result_count_sum / float(successful_count)) if successful_count else 0
 
         stats[e.name] = {
@@ -935,7 +930,7 @@ def preferences():
 
     # reliabilities
     reliabilities = {}
-    engine_errors = get_engine_errors(filtered_engines)
+    engine_errors = metrics.get_engine_errors(filtered_engines)
     checker_results = checker_get_result()
     checker_results = (
         checker_results['engines'] if checker_results['status'] == 'ok' and 'engines' in checker_results else {}
@@ -944,7 +939,7 @@ def preferences():
         checker_result = checker_results.get(e.name, {})
         checker_success = checker_result.get('success', True)
         errors = engine_errors.get(e.name) or []
-        if counter('engine', e.name, 'search', 'count', 'sent') == 0:
+        if metrics.COUNTER_STORAGE.get('engine', e.name, 'search', 'count', 'sent') == 0:
             # no request
             reliability = None
         elif checker_success and not errors:
@@ -1143,8 +1138,8 @@ def stats():
         checker_results['engines'] if checker_results['status'] == 'ok' and 'engines' in checker_results else {}
     )
 
-    engine_stats = get_engines_stats(filtered_engines)
-    engine_reliabilities = get_reliabilities(filtered_engines, checker_results)
+    engine_metrics = metrics.get_engines_metrics(filtered_engines)
+    engine_reliabilities = metrics.get_reliabilities(filtered_engines, checker_results)
 
     if sort_order not in STATS_SORT_PARAMETERS:
         sort_order = 'name'
@@ -1163,12 +1158,12 @@ def stats():
                 reliability_order = 1 - reliability_order
         return (reliability_order, key, engine_stat['name'])
 
-    engine_stats['time'] = sorted(engine_stats['time'], reverse=reverse, key=get_key)
+    engine_metrics['time'] = sorted(engine_metrics['time'], reverse=reverse, key=get_key)
     return render(
         # fmt: off
         'stats.html',
         sort_order = sort_order,
-        engine_stats = engine_stats,
+        engine_stats = engine_metrics,
         engine_reliabilities = engine_reliabilities,
         selected_engine_name = selected_engine_name,
         searx_git_branch = GIT_BRANCH,
@@ -1179,7 +1174,7 @@ def stats():
 @app.route('/stats/errors', methods=['GET'])
 def stats_errors():
     filtered_engines = dict(filter(lambda kv: request.preferences.validate_token(kv[1]), engines.items()))
-    result = get_engine_errors(filtered_engines)
+    result = metrics.get_engine_errors(filtered_engines)
     return jsonify(result)
 
 

@@ -8,8 +8,7 @@ from urllib.parse import urlparse, unquote
 from searx import logger
 from searx import utils
 from searx.engines import engines
-from searx.metrics import histogram_observe, counter_add, count_error
-
+from searx import metrics
 
 CONTENT_LEN_IGNORED_CHARS_REGEX = re.compile(r'[,;:!?\./\\\\ ()-_]', re.M | re.U)
 WHITESPACE_REGEX = re.compile('( |\t|\n)+', re.M | re.U)
@@ -227,10 +226,10 @@ class ResultContainer:
 
         if len(error_msgs) > 0:
             for msg in error_msgs:
-                count_error(engine_name, 'some results are invalids: ' + msg, secondary=True)
+                metrics.count_error(engine_name, 'some results are invalids: ' + msg, secondary=True)
 
         if engine_name in engines:
-            histogram_observe(standard_result_count, 'engine', engine_name, 'result', 'count')
+            metrics.HISTOGRAM_STORAGE.observe(standard_result_count, 'engine', engine_name, 'result', 'count')
 
         if not self.paging and engine_name in engines and engines[engine_name].paging:
             self.paging = True
@@ -362,7 +361,7 @@ class ResultContainer:
                 result['title'] = ' '.join(utils.html_to_text(result['title']).strip().split())
 
             for result_engine in result['engines']:
-                counter_add(score, 'engine', result_engine, 'score')
+                metrics.COUNTER_STORAGE.add(score, 'engine', result_engine, 'score')
 
         results = sorted(self._merged_results, key=itemgetter('score'), reverse=True)
 

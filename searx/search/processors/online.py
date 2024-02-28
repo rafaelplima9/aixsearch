@@ -18,7 +18,8 @@ from searx.exceptions import (
     SearxEngineCaptchaException,
     SearxEngineTooManyRequestsException,
 )
-from searx.metrics.error_recorder import count_error
+
+from searx import metrics
 from .abstract import EngineProcessor
 
 
@@ -124,7 +125,7 @@ class OnlineProcessor(EngineProcessor):
             status_code = str(response.status_code or '')
             reason = response.reason_phrase or ''
             hostname = response.url.host
-            count_error(
+            metrics.count_error(
                 self.engine_name,
                 '{} redirects, maximum: {}'.format(len(response.history), soft_max_redirects),
                 (status_code, reason, hostname),
