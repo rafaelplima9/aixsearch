@@ -322,7 +322,8 @@ engines:
     engine: apkmirror
     timeout: 4.0
     shortcut: apkm
-    disabled: true
+    # disabled: true
+    inactive: true
 
   - name: apple app store
     engine: apple_app_store
@@ -348,7 +349,8 @@ engines:
     categories: it
     timeout: 6.0
     shortcut: conda
-    disabled: true
+    # disabled: true
+    inactive: true
 
   - name: arch linux wiki
     engine: archlinux
@@ -363,6 +365,7 @@ engines:
     engine: arxiv
     shortcut: arx
     timeout: 4.0
+    inactive: true
 
   - name: ask
     engine: ask
@@ -467,6 +470,7 @@ engines:
   - name: chefkoch
     engine: chefkoch
     shortcut: chef
+    inactive: true
     # to show premium or plus results too:
     # skip_premium: false
 
@@ -487,7 +491,8 @@ engines:
     engine: crossref
     shortcut: cr
     timeout: 30
-    disabled: true
+    # disabled: true
+    inactive: true
 
   - name: crowdview
     engine: json_engine
@@ -579,12 +584,14 @@ engines:
   - name: deezer
     engine: deezer
     shortcut: dz
-    disabled: true
+    # disabled: true
+    inactive: true
 
   - name: destatis
     engine: destatis
     shortcut: destat
-    disabled: true
+    # disabled: true
+    inactive: true
 
   - name: deviantart
     engine: deviantart
@@ -621,7 +628,8 @@ engines:
     content_xpath: //dl[@class="results-list"]/dd[@class="result-details"]
     categories: []
     shortcut: ew
-    disabled: true
+    # disabled: true
+    inactive: true
     about:
       website: https://www.erowid.org/
       wikidata_id: Q1430691
@@ -694,7 +702,8 @@ engines:
     engine: emojipedia
     timeout: 4.0
     shortcut: em
-    disabled: true
+    # disabled: true
+    inactive: true
 
   - name: tineye
     engine: tineye
@@ -777,7 +786,8 @@ engines:
     engine: fyyd
     shortcut: fy
     timeout: 8.0
-    disabled: true
+    # disabled: true
+    inactive: true
 
   - name: genius
     engine: genius
@@ -904,7 +914,8 @@ engines:
     content_query: description
     page_size: 19
     categories: music
-    disabled: true
+    # disabled: true
+    inactive: true
     about:
       website: https://gpodder.net
       wikidata_id: Q3093354
@@ -923,7 +934,8 @@ engines:
     content_xpath: .//div[contains(@class, "article-formatted-body")]
     categories: it
     timeout: 4.0
-    disabled: true
+    # disabled: true
+    inactive: true
     shortcut: habr
     about:
       website: https://habr.com/
@@ -994,7 +1006,8 @@ engines:
     engine: jisho
     shortcut: js
     timeout: 3.0
-    disabled: true
+    # disabled: true
+    inactive: true
 
   - name: kickass
     engine: kickass
@@ -1063,6 +1076,7 @@ engines:
   - name: lingva
     engine: lingva
     shortcut: lv
+    inactive: true
     # set lingva instance in url, by default it will use the official instance
     # url: https://lingva.thedaviddelta.com
 
@@ -1145,7 +1159,8 @@ engines:
   - name: metacpan
     engine: metacpan
     shortcut: cpan
-    disabled: true
+    # disabled: true
+    inactive: true
     number_of_results: 20
 
   # - name: meilisearch
@@ -1280,7 +1295,6 @@ engines:
     content_xpath: //li[@class="search-result"]//div[@class="search-snippet-info"]//p[@class="search-snippet"]
     categories: files
     timeout: 4.0
-    disabled: true
     shortcut: or
     about:
       website: https://openrepos.net/
@@ -1299,7 +1313,8 @@ engines:
     title_query: name
     content_query: description
     categories: [it, packages]
-    disabled: true
+    # disabled: true
+    inactive: true
     timeout: 5.0
     shortcut: pack
     about:
@@ -1383,6 +1398,7 @@ engines:
   - name: podcastindex
     engine: podcastindex
     shortcut: podcast
+    inactive: true
 
   # Required dependency: psychopg2
   #  - name: postgresql
@@ -1440,7 +1456,8 @@ engines:
     content_xpath: ./div/div/div[contains(@class,"packages-description")]/span
     categories: [packages, it]
     timeout: 3.0
-    disabled: true
+    # disabled: true
+    inactive: true
     first_page_num: 1
     about:
       website: https://pub.dev/
@@ -1453,6 +1470,7 @@ engines:
     engine: pubmed
     shortcut: pub
     timeout: 3.0
+    inactive: true
 
   - name: pypi
     shortcut: pypi
@@ -1521,7 +1539,8 @@ engines:
   - name: rottentomatoes
     engine: rottentomatoes
     shortcut: rt
-    disabled: true
+    # disabled: true
+    inactive: true
 
   # Required dependency: redis
   # - name: myredis
@@ -1574,12 +1593,14 @@ engines:
   - name: searchcode code
     engine: searchcode_code
     shortcut: scc
-    disabled: true
+    # disabled: true
+    inactive: true
 
   - name: framalibre
     engine: framalibre
     shortcut: frl
-    disabled: true
+    # disabled: true
+    inactive: true
 
   # - name: searx
   #   engine: searx_engine
@@ -1591,8 +1612,9 @@ engines:
 
   - name: semantic scholar
     engine: semantic_scholar
-    disabled: true
+    # disabled: true
     shortcut: se
+    inactive: true
 
   # Spotify needs API credentials
   # - name: spotify
@@ -1680,7 +1702,8 @@ engines:
     title_xpath: .//div[contains(@class,"title")]//h2
     content_xpath: .//div[contains(@class,"overview")]
     shortcut: tm
-    disabled: true
+    # disabled: true
+    inactive: true
 
   # Requires Tor
   - name: torch
@@ -1921,11 +1944,14 @@ engines:
   - name: dictzone
     engine: dictzone
     shortcut: dc
+    inactive: true
 
   - name: mymemory translated
     engine: translated
     shortcut: tl
     timeout: 5.0
+    # disabled: true
+    inactive: true
     # You can use without an API key, but you are limited to 1000 words/day
     # See: https://mymemory.translated.net/doc/usagelimits.php
     # api_key: ''
@@ -1948,7 +1974,8 @@ engines:
   - name: duden
     engine: duden
     shortcut: du
-    disabled: true
+    # disabled: true
+    inactive: true
 
   - name: seznam
     shortcut: szn
@@ -1990,7 +2017,8 @@ engines:
   - name: moviepilot
     engine: moviepilot
     shortcut: mp
-    disabled: true
+    # disabled: true
+    inactive: true
 
   - name: naver
     shortcut: nvr
@@ -2025,7 +2053,8 @@ engines:
     suggestion_xpath: /html/body/main/div/div[@class="search__suggestions"]/p/a
     first_page_num: 1
     categories: [it, packages]
-    disabled: true
+    # disabled: true
+    inactive: true
     about:
       website: https://rubygems.org/
       wikidata_id: Q1853420
@@ -2091,13 +2120,15 @@ engines:
     base_url: https://www.wordnik.com/
     categories: [dictionaries]
     timeout: 5.0
+    inactive: true
 
   - name: woxikon.de synonyme
     engine: xpath
     shortcut: woxi
     categories: [dictionaries]
     timeout: 5.0
-    disabled: true
+    # disabled: true
+    inactive: true
     search_url: https://synonyme.woxikon.de/synonyme/{query}.php
     url_xpath: //div[@class="upper-synonyms"]/a/@href
     content_xpath: //div[@class="synonyms-list-group"]
@@ -2155,6 +2186,7 @@ engines:
   - name: tootfinder
     engine: tootfinder
     shortcut: toot
+    inactive: true
 
   - name: voidlinux
     engine: voidlinux
@@ -2194,7 +2226,8 @@ engines:
   - name: yummly
     engine: yummly
     shortcut: yum
-    disabled: true
+    # disabled: true
+    inactive: true
 
   - name: brave
     engine: brave
