@@ -39,16 +39,20 @@ jobs:
           ./node_modules
         key: python-${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('requirements*.txt', 'setup.py') }}
     - name: Install Python dependencies
-      if: steps.cache-python.outputs.cache-hit != 'true'
       run: |
         make V=1 install
         make V=1 gecko.driver
     - name: Run tests
-      run: make V=1 ci.test
+      run: |
+        env
+        which firefox
+        ls -la /snap/bin/firefox
+        file /snap/bin/firefox
+        make V=1 ci.test
     - name: Test coverage
       run: make V=1 test.coverage
     - name: Store coverage result
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: coverage-${{ matrix.python-version }}
         path: coverage/
