@@ -3,10 +3,10 @@
 
 import typing
 import inspect
+import logging
 from json import JSONDecodeError
 from urllib.parse import urlparse
 from httpx import HTTPError, HTTPStatusError
-import logging
 from searx.exceptions import (
     SearxXPathSyntaxException,
     SearxEngineXPathException,
