@@ -3,6 +3,7 @@
 
 """
 
+import logging
 from logging import Logger
 import threading
 from abc import abstractmethod, ABC
@@ -96,10 +97,11 @@ class EngineProcessor(ABC):
         result_container.add_unresponsive_engine(self.engine_name, error_message)
         # metrics
         counter_inc('engine', self.engine_name, 'search', 'count', 'error')
+        log_level = logging.WARN if self.engine_exc_info else logging.NOTSET
         if isinstance(exception_or_message, BaseException):
-            count_exception(self.engine_name, exception_or_message)
+            count_exception(self.engine_name, exception_or_message, log_level=log_level)
         else:
-            count_error(self.engine_name, exception_or_message)
+            count_error(self.engine_name, exception_or_message, log_level=log_level)
         # suspend the engine ?
         if suspend:
             suspended_time = None

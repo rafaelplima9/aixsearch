@@ -126,6 +126,7 @@ class OnlineProcessor(EngineProcessor):
                 self.engine_name,
                 '{} redirects, maximum: {}'.format(len(response.history), soft_max_redirects),
                 (status_code, reason, hostname),
+                self.engine_exc_info,
                 secondary=True,
             )
 
